@@ -8,34 +8,34 @@ document:
 skeleton:
   nodes:
     - id: "S1"
-      type: "definition"
-      gist: "報告の幾何学：提示効率Q1〜Q5を定義し、構造を測定可能にする理論"
-      detail: "思想・論文・報告などの知的文章を二層メタ文書として構造化し、Union-K空間で提示効率を定量化する。"
+      type: "assumption"
+      gist: "提示効率をどう測るかという課題設定"
+      detail: "思想・論文・報告を再現性と測定可能性の観点から扱い、構造的“美”を観測可能にする。"
 
     - id: "S2"
       type: "definition"
-      gist: "基本要素：状態空間W・観測代数A・資源制約C・報告写像R"
-      detail: "Wは世界の可能状態集合、Aは観測様式（記述・証明など）、Cは計算・時間・語数などの制約、Rは世界→報告への写像。"
+      gist: "基本要素W/A/C/Rの定義"
+      detail: "W=世界の可能状態集合、A=観測様式、C=資源制約、R=世界→報告の写像。"
 
     - id: "S3"
       type: "claim"
-      gist: "矛盾度εは資源Cの関数で単調減少だが下限ε*(w)>0が残る"
-      detail: "A1とA2が非可換な観測様式であるとき、資源を増やしても一致しない残余矛盾が残り、二元対立は報告生成過程の制約として現れる。"
+      gist: "矛盾度εはCの関数で単調減少だが下限ε*(w)>0が残る"
+      detail: "A1とA2が非可換な観測様式のとき、資源を増やしても一致しない残余矛盾が残る。"
 
     - id: "S4"
       type: "evidence"
-      gist: "エントロピー型不確定性関係に基づく導出"
-      detail: "量子情報理論の不確定性関係を用いて、A1,A2が非可換のときε*(w)>0の存在が数学的に示される（直観→形式へ）。"
+      gist: "エントロピー型不確定性関係による導出"
+      detail: "量子情報理論の不確定性関係を用いて、ε*(w)>0の存在が数学的に示される。"
 
     - id: "S5"
       type: "method"
-      gist: "Union-K標準により要点×詳細を同一座標系で評価"
-      detail: "K = K_gist × K_detail とし、要約（gist）と本文（detail）を公平に評価する。Intersect-Kは偏向を生むため不採用。"
+      gist: "Union-K標準：要点×詳細を同一座標系で評価"
+      detail: "K = K_gist × K_detail。Intersect-Kは偏向を生むため採用しない。"
 
     - id: "S6"
       type: "result"
-      gist: "提示効率の測定により、構造的“美”の一部が可視化される"
-      detail: "Q1〜Q4で文章構造の手触りを観測でき、Q5で価値重みへの頑健性を確認できる。"
+      gist: "提示効率の測定で構造的“美”が可視化される"
+      detail: "Q1〜Q4が文章構造の手触りを示し、Q5で価値重みに対する頑健性を確認する。"
 
   edges:
     - {from: "S1", to: "S2", dep: "logical"}
@@ -45,21 +45,23 @@ skeleton:
     - {from: "S5", to: "S6", dep: "logical"}
 
 anchors:
-  core: "提示効率の測定によって、思想の構造的“美”を可視化する"
+  core: "提示効率の測定によって思想の構造的“美”を可視化する"
   transitions:
-    - {at: "S2", cue: "基本要素の定義から命題へ"}
-    - {at: "S4", cue: "直観から形式へ（証明の転換）"}
+    - {at: "S2", cue: "基本要素の定義から命題へ", before: "定義の列挙", after: "矛盾度の命題へ焦点"}
+    - {at: "S4", cue: "直観から形式へ（証明の転換）", before: "直観的理解", after: "数学的必然の認識"}
   navigation:
+    # 最短に寄せるルートを追加（Q4向上を狙う）
+    - {path: ["S2","S3","S6"], label: "要点直行経路"}
     - {path: ["S1","S2","S3","S4","S6"], label: "完全経路（定義→命題→証拠→結論）"}
     - {path: ["S1","S5","S6"], label: "概要経路（理論→方法→結論）"}
 
 preregister:
   eval_mode: "union_k"
   phi_preserve: ["normalize_case","strip_punct"]
-  expected_hypothesis: "Q2（二層整合度）は中〜高／Q3はS4前後で大きめ"
+  expected_hypothesis: "Q2は中〜高、Q3はS2/S4転換で上昇、Q4は>0"
 
 log:
-  prompt: "2025-109の第1章の骨格＋アンカーをクイック抽出"
+  prompt: "2025-109の第1章の骨格＋アンカー（クイック計測）"
   seed: 42
   model_id: "tfidf-v1"
   timestamp: "2025-10-20T12:00:00Z"
