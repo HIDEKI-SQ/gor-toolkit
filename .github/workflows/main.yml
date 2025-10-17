@@ -9,17 +9,30 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      # リポジトリ直下をインポートパスに通す（srcパッケージが見える）
+      PYTHONPATH: ${{ github.workspace }}
+
     steps:
       - uses: actions/checkout@v4
+
+      # （任意）UbuntuのMeCabを入れておく。wheelがあれば使われますが念のため。
+      - name: Install system packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y mecab libmecab-dev mecab-ipadic-utf8
+
       - uses: actions/setup-python@v4
         with:
           python-version: '3.11'
-      - name: Install
+          cache: 'pip'
+
+      - name: Install Python deps (no editable install)
         run: |
-          python -m venv venv && source venv/bin/activate
+          python -m pip install --upgrade pip setuptools wheel
           pip install -r requirements.txt
-          pip install -e .
+          # pip install -e .  ← 使いません
+
       - name: Run tests
         run: |
-          source venv/bin/activate
           pytest -v
