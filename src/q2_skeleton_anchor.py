@@ -33,7 +33,20 @@ def compute_q2(skeleton: dict, anchors: dict, alpha=0.7, beta=0.3):
             if a in G and v in G and nx.has_path(G, a, v):
                 dists.append(nx.shortest_path_length(G, a, v))
     mean_path = np.mean(dists) if dists else 1.0
-    diameter = nx.diameter(G) if nx.is_weakly_connected(G) else max(1, len(G.nodes))
+# 修正前：
+# diameter = nx.diameter(G) if nx.is_weakly_connected(G) else max(1, len(G.nodes))
+
+# 修正後：
+try:
+    if nx.is_weakly_connected(G):
+        diameter = nx.diameter(G.to_undirected())
+    else:
+        # DAGの場合は全ペア最短経路の最大値を手動で計算
+        all_pairs = dict(nx.all_pairs_shortest_path_length(G))
+        finite_lengths = [d for sub in all_pairs.values() for d in sub.values()]
+        diameter = max(finite_lengths) if finite_lengths else 1
+except Exception:
+    diameter = max(1, len(G.nodes))
     mean_path_norm = mean_path / diameter
 
     A_sa = alpha * coverage - beta * mean_path_norm
