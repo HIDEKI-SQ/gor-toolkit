@@ -1,0 +1,239 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Two-Layer Meta-Document Schema",
+  "type": "object",
+  "required": [
+    "document",
+    "skeleton",
+    "anchors",
+    "preregister",
+    "log"
+  ],
+  "properties": {
+    "document": {
+      "type": "object",
+      "required": [
+        "id",
+        "lang",
+        "title"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]+$"
+        },
+        "lang": {
+          "type": "string",
+          "enum": [
+            "ja",
+            "en"
+          ]
+        },
+        "title": {
+          "type": "string"
+        },
+        "author": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "skeleton": {
+      "type": "object",
+      "required": [
+        "nodes",
+        "edges"
+      ],
+      "properties": {
+        "nodes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "type",
+              "gist",
+              "detail"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^S[0-9]+$"
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "claim",
+                  "definition",
+                  "evidence",
+                  "assumption",
+                  "method",
+                  "result"
+                ]
+              },
+              "gist": {
+                "type": "string",
+                "minLength": 10,
+                "maxLength": 200
+              },
+              "detail": {
+                "type": "string",
+                "minLength": 50
+              }
+            }
+          }
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "from",
+              "to",
+              "dep"
+            ],
+            "properties": {
+              "from": {
+                "type": "string"
+              },
+              "to": {
+                "type": "string"
+              },
+              "dep": {
+                "type": "string",
+                "enum": [
+                  "logical",
+                  "reference",
+                  "evidence",
+                  "elaboration"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "anchors": {
+      "type": "object",
+      "required": [
+        "core",
+        "transitions",
+        "navigation"
+      ],
+      "properties": {
+        "core": {
+          "type": "string"
+        },
+        "transitions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "at",
+              "cue"
+            ],
+            "properties": {
+              "at": {
+                "type": "string"
+              },
+              "cue": {
+                "type": "string"
+              },
+              "before": {
+                "type": "string"
+              },
+              "after": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "navigation": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "path"
+            ],
+            "properties": {
+              "path": {
+                "type": "array",
+                "minItems": 2,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "label": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "preregister": {
+      "type": "object",
+      "required": [
+        "eval_mode"
+      ],
+      "properties": {
+        "eval_mode": {
+          "type": "string",
+          "enum": [
+            "union_k"
+          ]
+        },
+        "phi_preserve": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "normalize_case",
+              "strip_punct",
+              "lexicon_isomorph",
+              "date_normalize"
+            ]
+          }
+        },
+        "expected_hypothesis": {
+          "type": "string"
+        }
+      }
+    },
+    "log": {
+      "type": "object",
+      "required": [
+        "seed",
+        "model_id",
+        "hash"
+      ],
+      "properties": {
+        "prompt": {
+          "type": "string"
+        },
+        "seed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "model_id": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "hash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      }
+    }
+  }
+}

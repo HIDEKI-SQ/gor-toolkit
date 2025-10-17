@@ -1,0 +1,49 @@
+document:
+  id: "2025-113-secX"
+  lang: "ja"
+  title: "報告の幾何学Ⅰ：礎 第1章"
+  author: "HIDEKI"
+  date: "2025-10-09"
+
+skeleton:
+  nodes:
+    - id: "S1"
+      type: "definition"
+      gist: "状態空間W、観測代数A、資源C、報告写像Rの定義"
+      detail: "状態空間W（世界の可能な状態）、観測代数A（測定様式）、資源制約C、報告写像Rを操作的に定義する。"
+    - id: "S2"
+      type: "claim"
+      gist: "矛盾度εは資源Cの関数ε(C)として振る舞う"
+      detail: "非可換な観測代数A1とA2の矛盾度εは資源Cの増加で単調減少するが、残余下限ε*(w)>0が存在する。"
+    - id: "S3"
+      type: "evidence"
+      gist: "エントロピー型不確定性関係からの導出"
+      detail: "量子情報理論の不確定性関係により、ε*(w)>0の存在が示される。"
+    - id: "S4"
+      type: "result"
+      gist: "二元的対立は報告の幾何に由来する"
+      detail: "残余下限の存在より、二元的対立は対象本性ではなく報告過程の制約に由来する。"
+  edges:
+    - {from: "S1", to: "S2", dep: "logical"}
+    - {from: "S2", to: "S3", dep: "evidence"}
+    - {from: "S3", to: "S4", dep: "logical"}
+
+anchors:
+  core: "構造の定義により二元性の幾何学的起源が明らかになる"
+  transitions:
+    - {at: "S1", cue: "定義から命題へ"}
+    - {at: "S3", cue: "形式的証明へ"}
+  navigation:
+    - {path: ["S1","S2","S4"], label: "概要経路"}
+
+preregister:
+  eval_mode: "union_k"
+  phi_preserve: ["normalize_case","strip_punct"]
+  expected_hypothesis: "Q2が高い値"
+
+log:
+  prompt: "N/A"
+  seed: 42
+  model_id: "tfidf-v1"
+  timestamp: "2025-10-18T10:30:00Z"
+  hash: "sha256:" + "a"*64
