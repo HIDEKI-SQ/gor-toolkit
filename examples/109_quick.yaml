@@ -54,6 +54,7 @@ anchors:
     - {path: ["S2","S3","S6"], label: "要点直行経路"}
     - {path: ["S1","S2","S3","S4","S6"], label: "完全経路（定義→命題→証拠→結論）"}
     - {path: ["S1","S5","S6"], label: "概要経路（理論→方法→結論）"}
+    - {path: ["S2","S3","S6"], label: "要点直行経路"}
 
 preregister:
   eval_mode: "union_k"
