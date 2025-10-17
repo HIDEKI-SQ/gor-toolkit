@@ -1,0 +1,25 @@
+name: Private CI
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install
+        run: |
+          python -m venv venv && source venv/bin/activate
+          pip install -r requirements.txt
+          pip install -e .
+      - name: Run tests
+        run: |
+          source venv/bin/activate
+          pytest -v
