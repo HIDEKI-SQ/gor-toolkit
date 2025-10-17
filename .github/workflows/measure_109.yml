@@ -1,0 +1,33 @@
+name: Measure 109 quick
+
+on:
+  workflow_dispatch:   # 手動実行用ボタン
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install system packages (MeCab)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y mecab libmecab-dev mecab-ipadic-utf8
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - name: Install Python deps
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          pip install -r requirements.txt
+          # パッケージ化は不要。PYTHONPATHにリポジトリを通してそのまま実行します
+      - name: Run measurement
+        env:
+          PYTHONPATH: ${{ github.workspace }}
+        run: |
+          python run.py examples/109_quick.yaml
+      - name: Upload result artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: 109_quick_results
+          path: examples/109_quick_results.json
